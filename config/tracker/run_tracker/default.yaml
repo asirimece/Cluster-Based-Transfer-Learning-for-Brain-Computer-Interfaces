@@ -1,0 +1,11 @@
+
+name: 'wandb_run_tracker'
+type: 'wandb'
+enabled: true
+mode: 'in_session'
+target: 'run'
+
+project: ${wandb.run_project}
+
+kwargs: {}
+args: []

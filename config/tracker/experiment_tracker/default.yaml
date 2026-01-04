@@ -1,0 +1,12 @@
+
+
+name: 'wandb_experiment_tracker'
+type: 'wandb'
+enabled: true
+mode: 'in_session'
+target: 'experiment'
+
+project: ${wandb.experiment_project}
+
+kwargs: {}
+args: []

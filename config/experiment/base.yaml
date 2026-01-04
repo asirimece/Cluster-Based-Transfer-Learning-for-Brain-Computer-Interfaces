@@ -1,0 +1,50 @@
+type: base
+
+data:
+  preprocessed_data: "./dump/preprocessed_source_data.pkl"
+
+experiment:
+  device: "cuda"
+  model:
+    n_outputs: 2
+
+  single:
+    n_runs: 3
+    seed_start: 42
+    epochs: 100  
+    batch_size: 64
+    learning_rate: 0.0005
+    optimizer: "Adam"      
+    weight_decay: 0.001     
+    loss: "cross_entropy"  
+    
+  pooled:
+    n_runs: 3
+    seed_start: 42
+    epochs: 100      
+    batch_size: 64
+    learning_rate: 0.0005
+    optimizer: "Adam"      
+    weight_decay: 0.001     
+    loss: "cross_entropy"  
+
+evaluators:
+  quantitative:
+    metrics:
+        - "accuracy"
+        - "kappa"
+        - "precision"
+        - "recall"
+        - "f1_score"
+        - "confusion_matrix"
+        - "roc_curve"
+  qualitative:
+    visualizations:
+      - "confusion_matrix"
+      - "roc_curve"
+
+    output_dir: "./evaluation_plots/baseline"
+  
+logging:
+  single_results_path: "./dump/trained_models/baseline/single_subject_training.pkl"
+  pooled_results_path: "./dump/trained_models/baseline/pooled_training.pkl"

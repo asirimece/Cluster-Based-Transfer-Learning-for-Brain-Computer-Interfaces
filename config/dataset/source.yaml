@@ -1,0 +1,60 @@
+source: "fif"
+name: 'CustomEEG_85Subject'
+home: './data/source'
+dataset: 'source'
+
+n_subjects: 85
+subjects: []  
+sfreq: 200
+n_channels: 8
+eeg_channels: ['Fz','C3','Cz','C4','PO7','Oz','PO8','Pz']
+eog_channels: []
+
+event_markers:
+  left_hand: 0
+  right_hand: 1
+  rest: 2
+  "0": "left_hand"
+  "1": "right_hand"
+  "2": "rest"
+
+unify_annotations: true
+
+preprocessing:
+  concatenate_recordings: false 
+  split_days: false        
+
+  remove_eog_artifacts: false       
+  show_ica_plots: false             
+  save_ica_plots: false
+  ica_plots_dir: null
+
+  raw_preprocessors:   # Dataset already preprocessed
+    resample:
+      kwargs:
+        target_sfreq: 250
+        npad: "auto"
+             
+  epoching:
+    kwargs:
+      tmin: -1.0                    
+      tmax: 2.0                     
+      crop_window_length: 3.0        
+      crop_step_size: 0.5
+      baseline: null                
+
+  exponential_moving_standardization:
+    kwargs:
+      smoothing_factor: 0.1
+      eps: 1e-5
+
+  output_file: "./dump/preprocessed_source_data.pkl"
+
+  data_split:
+    kwargs:
+      train_fraction: 0.7
+      random_seed: 42
+
+tracker:
+  wandb_project: 'eeg_custom'
+  wandb_mode: 'online'

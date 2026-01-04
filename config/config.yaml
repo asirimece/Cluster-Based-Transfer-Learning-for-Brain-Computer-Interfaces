@@ -1,0 +1,11 @@
+defaults:
+  - dataset: target   # source / target
+  - augment: augment
+  - transform: transform
+  - experiment: transfer  # base / transfer
+  - model: deep4net
+  - hook: hook
+  - tracker: tracker
+  - wandb: dev
+  - _self_
+seed: 1

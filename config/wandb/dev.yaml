@@ -1,0 +1,11 @@
+mode: "disabled"  # online, offline, disabled
+slack: False
+
+experiment_project: vt2_bci_iv2a_TL
+run_project: vt2_bci_iv2a_TL_runs
+entity: 'asirimece'
+
+environment: "test"
+
+tags:
+  - Test

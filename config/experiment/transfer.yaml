@@ -1,0 +1,128 @@
+type: transfer
+
+experiment:
+  preprocessed_file: "dump/preprocessed_source_data.pkl"
+  features_file: "dump/features.pkl"
+  online_features_file: "dump/features.pkl"  
+
+  clustering:
+    method: "kmeans"
+    kmeans:
+      n_clusters: 3
+      init: "k-means++"
+      max_iter: 300
+      n_init: 10
+      random_state: 42
+    hierarchical:
+      n_clusters: 3
+      linkage: "ward"
+    dbscan:
+      eps: 1.0
+      min_samples: 5
+      metric: "euclidean"
+      leaf_size: 30
+
+  mtl:
+    backbone:
+      n_times: 750  
+      drop_prob: 0.15
+      n_filters_time: 25
+      n_filters_spat: 25
+      filter_time_length: 10
+      pool_time_length: 3
+
+    model:
+      n_outputs: 2
+      backbone:
+        dropout: 0.5
+        n_times: 750 
+      head:
+        hidden_dim: 128
+        dropout: 0.5
+    
+    augment: false
+
+    training:
+      n_runs: 1
+      seed_start: 42
+      epochs: 1
+      batch_size: 64
+
+      learning_rate: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+      lambda_bias: [1e-5,    1e-5,    1e-5,    1e-5,    1e-5]
+      optimizer:
+        name: "Adam"            
+        weight_decay: 0.001     
+      loss: "cross_entropy"
+    
+    mtl_model_output: "dump/trained_models/mtl"
+
+  transfer:
+    augment: false
+    
+    mode: in_session           # pooled / few_shot / zero_shot / in_session (enable below)
+    use_cluster: true 
+    k_shots: 4
+    pooled_epochs: 1  #150  
+    early_stop_patience: 5       
+    
+    init_from_scratch: false 
+    pretrained_mtl_model: dump/trained_models/mtl/mtl_weights.pth
+    
+    freeze_backbone: false
+    freeze_until_layer: null  
+    backbone_lr: 1e-5     
+    head_lr: 1e-3         
+
+    n_runs: 1
+    seed_start: 42
+    epochs: 1
+    lr: 1e-4
+    weight_decay: 0.001
+    batch_size: 64
+  
+
+    device: "cpu"
+
+    in_session:
+      enabled: true      # Enable for in-session transfer
+      data_path: "dump/preprocessed_target_data.pkl"       
+      k_shot:    4           # Number of trials to use for few‑shot calibration (hold out 1 trial for testing)
+      calib_epochs: 1 #10      
+      calib_lr:     5e-4    
+
+    tl_model_output: "dump/trained_models/tl"
+
+    model:
+      n_outputs: 2
+      n_clusters_pretrained: 3   # Number of clusters used during MTL pretraining.
+    head_hidden_dim: 128
+    head_dropout: 0.5
+
+  evaluators:
+    quantitative:
+      metrics:
+        - "accuracy"
+        - "kappa"
+        - "precision"
+        - "recall"
+        - "f1_score"
+      cluster_metrics: ${.metrics}
+
+    qualitative:
+      visualizations:
+        - "pca"
+        - "tsne"
+        - "confusion_matrix"
+        - "roc_curve"
+        - "cluster_scatter"
+        - "delta_by_cluster"
+        - "subject_delta_sorted"
+        - "delta_violin"
+      pca_n_components: 3
+      tsne:
+        perplexity: 30
+        n_iter:     1000
+    mtl_output_dir: "./evaluation_plots/mtl"
+    tl_output_dir: "./evaluation_plots/tl"
+

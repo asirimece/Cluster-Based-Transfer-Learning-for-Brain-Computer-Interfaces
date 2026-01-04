@@ -1,0 +1,23 @@
+name: "deep4net"
+
+in_chans: 8
+n_classes: 2
+n_times: 750
+final_conv_length: auto 
+
+single:
+  drop_prob: 0.25
+  n_filters_time: 25
+  n_filters_spat: 25
+  filter_time_length: 10
+  pool_time_length: 3
+  pool_mode: "mean"  # mean or max
+
+pooled:
+  drop_prob: 0.25
+  n_filters_time: 25
+  n_filters_spat: 25
+  filter_time_length: 10
+  pool_time_length: 3
+  pool_mode: "max"  # mean or max
+  
