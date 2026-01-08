@@ -5,17 +5,10 @@
 
 ## Overview
 
-This repository contains the complete experimental pipeline developed for my MSc thesis:
+This repository contains the complete experimental pipeline developed for my MSc thesis **“Cluster-Based Transfer Learning for Motor Imagery BCI: Evaluating Offline Generalization and In-Session Calibration”**
 
-**“Cluster-Based Transfer Learning for Motor Imagery BCI:  
-Evaluating Offline Generalization and In-Session Calibration”**
-
-The project addresses a central bottleneck in EEG-based Brain–Computer Interfaces (BCIs):  
-**poor cross-subject generalization and the need for extensive per-user calibration**.
-
-The core idea is to explicitly model **population structure** and use it to guide transfer learning.  
-By combining **subject clustering**, **multi-task learning**, and **lightweight few-shot adaptation**,  
-the framework enables **accurate motor imagery decoding with only a handful of calibration trials**.
+The project addresses a central bottleneck in EEG-based Brain–Computer Interfaces (BCIs): **poor cross-subject generalization and the need for extensive per-user calibration**. The core idea is to explicitly model **population structure** and use it to guide transfer learning.  
+By combining **subject clustering**, **multi-task learning**, and **lightweight few-shot adaptation**, the framework enables **accurate motor imagery decoding with only a handful of calibration trials**.
 
 ## Key Contributions
 
